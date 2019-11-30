@@ -33,20 +33,14 @@ public class MainActivity extends AppCompatActivity {
         Observable<Task> taskObservable = Observable
             .fromIterable(DataSource.createTasksList())
             .subscribeOn(Schedulers.io())
-                .filter(new Predicate<Task>() {
-                    @Override
-                    public boolean test(Task task) throws Exception {
+            .filter(new Predicate<Task>() {
+                @Override
+                public boolean test(Task task) throws Exception {
 
-                        Timber.d("test: Thread: " + Thread.currentThread().getName());
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        return task.isComplete();
-                    }
-                })
+                    Timber.d("Thread: " + Thread.currentThread().getName() + " Task complete? " + task.isComplete());
+                    return task.isComplete();
+                }
+            })
             .observeOn(AndroidSchedulers.mainThread());
 
 
